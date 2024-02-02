@@ -15,6 +15,11 @@ app.all("*", (req, res, next) => {
   next();
 });
 
+// Serve react SPA at GET /
+app.get("/", async (req, res) => {
+  res.sendFile('index.html', { root: './public/dist/'});
+})
+
 //Serve all the people at GET /people
 app.get("/api/people", async (req, res) => {
   // res.send(people);
@@ -26,7 +31,7 @@ app.get("/api/people", async (req, res) => {
     client.close();
     res.json(people);
   } catch (error) {
-    res.status(500).json({error: error});
+    res.status(500).json({ error: error });
   }
 });
 
@@ -38,13 +43,13 @@ app.get("/api/people/:id", async (req, res) => {
     const collection = db.collection('people');
     const person = await collection.findOne({'_id': new ObjectId(id)});
     client.close();
-    if(person) {
+    if (person) {
       res.json(person);
     } else {
-      res.status(404).json({message: 'Person not found'});
+      res.status(404).json({ message: 'Person not found' });
     }
   } catch (error) {
-    res.status(500).json({error: error});
+    res.status(500).json({ error: error });
   }
 });
 
@@ -56,13 +61,12 @@ app.post("/api/people", async (req, res) => {
     const collection = db.collection('people');
     const result = await collection.insertOne(data);
     client.close();
-    res.status(201).json({"_id": result.insertedId});
+    res.status(201).json({ "_id": result.insertedId });
   } catch (error) {
     console.log(error);
-    res.status(500).json({error: error});
+    res.status(500).json({ error: error });
   }
 });
-
 
 app.use("", express.static("public/dist/index.html"));
 app.use("/index.html", express.static("public/dist/index.html"));
