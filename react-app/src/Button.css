@@ -16,4 +16,8 @@
   & button:hover {
     background: #f87d51;
   }
+
+  & button:active {
+    box-shadow: 1px 1px 1px black;
+  }
 }
