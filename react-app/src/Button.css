@@ -12,4 +12,8 @@
     margin: 10px;
     padding: 4px 6px;
   }
+
+  & button:hover {
+    background: #f87d51;
+  }
 }
